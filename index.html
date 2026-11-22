@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>צ'ק ליסט בודפשט</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&family=Jost:wght@300;400;500&display=swap">
+<style>
+/* Layout: one narrow column, sand hero band with a line-drawn gymnast, then grouped tick rows like a packing card */
+:root{
+  --bg:#F5F3EF; --bg-soft:#FBFAF7; --stone:#E9E4DD;
+  --accent:#B89B7A; --accent-deep:#6E5A44; --accent-soft:#EFE7DC;
+  --ink:#1B1A18; --ink-soft:#3A3631; --muted:#6B655E;
+  --done:#9C9389;
+  --font-body:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --font-label:"Jost","Heebo",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#191714; --bg-soft:#221F1B; --stone:#34302A;
+  --accent:#C9AE8D; --accent-deep:#E2CDB2; --accent-soft:#2B2620;
+  --ink:#F3EFE9; --ink-soft:#DDD6CC; --muted:#A8A096; --done:#7D766D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#191714; --bg-soft:#221F1B; --stone:#34302A;
+  --accent:#C9AE8D; --accent-deep:#E2CDB2; --accent-soft:#2B2620;
+  --ink:#F3EFE9; --ink-soft:#DDD6CC; --muted:#A8A096; --done:#7D766D; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+[hidden]{display:none!important}
+body{direction:rtl;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+
+.hero{background:var(--accent-soft);margin-top:calc(-1 * env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px)}
+.hero .wrap{padding-block:20px 26px;text-align:center}
+.hero svg{width:100%;max-width:320px;height:auto;display:block;margin:0 auto}
+.eyebrow{font-family:var(--font-label);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-deep);margin:6px 0 4px}
+h1{font-size:clamp(30px,8vw,40px);font-weight:700;line-height:1.1;margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:8px 0 0;font-size:16px}
+
+.progress{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:14px 0 12px;display:flex;align-items:center;gap:12px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.bar{flex:1;height:8px;border-radius:99px;background:var(--stone);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .35s ease}
+.count{font-family:var(--font-label);font-variant-numeric:tabular-nums;font-size:15px;color:var(--ink-soft);white-space:nowrap}
+
+.done-note{background:var(--ink);color:var(--bg);border-radius:14px;padding:14px 16px;text-align:center;font-weight:500;margin-bottom:8px}
+
+section{margin-top:18px}
+h2{font-family:var(--font-label);font-weight:500;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+h2 span:last-child{direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums;letter-spacing:.05em;color:var(--muted)}
+ul{list-style:none;margin:0;padding:0;background:var(--bg-soft);border:1px solid var(--stone);border-radius:16px;overflow:hidden}
+li+li{border-top:1px solid var(--stone)}
+label{display:flex;align-items:center;gap:14px;padding:14px 16px;min-height:58px;cursor:pointer;user-select:none}
+input[type=checkbox]{position:absolute;opacity:0;width:1px;height:1px}
+.box{flex:none;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--accent);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.box svg{width:16px;height:16px;stroke:var(--bg-soft);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .25s ease .05s}
+.txt{min-width:0}
+.name{display:block;font-weight:500;transition:color .2s}
+.note{display:block;font-size:14px;color:var(--muted);margin-top:1px}
+input:checked+.box{background:var(--accent-deep);border-color:var(--accent-deep)}
+input:checked+.box svg{stroke-dashoffset:0}
+input:checked~.txt .name{color:var(--done);text-decoration:line-through;text-decoration-color:var(--accent)}
+input:focus-visible+.box{outline:2px solid var(--ink);outline-offset:3px}
+
+.reset{margin-top:28px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+button{font:inherit;font-size:15px;border-radius:99px;padding:10px 22px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+button.solid{background:var(--ink);color:var(--bg)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.ask{color:var(--ink-soft);font-size:15px;width:100%;text-align:center;margin:0 0 4px}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <svg viewBox="0 0 320 210" role="img" aria-label="ציור קו של מתעמלת אומנותית צעירה בקפיצת פיסוק עם סרט">
+      <!-- floor -->
+      <path d="M40 196 H280" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".5"/>
+      <!-- ribbon -->
+      <path d="M201 34 C 236 6, 292 22, 284 62 C 276 102, 214 92, 222 128 C 230 162, 286 150, 290 182" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <path d="M201 34 C 226 30, 250 46, 252 70" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".55"/>
+      <!-- stick -->
+      <path d="M186 50 L201 34" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <!-- gymnast -->
+      <g stroke="var(--ink)" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <!-- back leg -->
+        <path d="M150 118 C 128 112, 104 104, 70 96 L 60 92" stroke-width="7"/>
+        <!-- front leg -->
+        <path d="M150 118 C 176 124, 206 130, 244 128 L 254 125" stroke-width="7"/>
+        <!-- torso -->
+        <path d="M158 80 C 156 94, 153 106, 150 118" stroke-width="15"/>
+        <!-- arm up -->
+        <path d="M161 82 C 168 70, 176 60, 186 50" stroke-width="5"/>
+        <!-- arm back -->
+        <path d="M156 84 C 142 80, 128 76, 112 66" stroke-width="5"/>
+        <!-- neck -->
+        <path d="M159 74 L160 66" stroke-width="5"/>
+      </g>
+      <circle cx="161" cy="56" r="11" fill="var(--ink)"/>
+      <circle cx="169" cy="44" r="6" fill="var(--ink)"/>
+      <!-- leotard accent -->
+      <path d="M153 104 C 155 98, 157 90, 158 82" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" fill="none"/>
+    </svg>
+    <p class="eyebrow">Budapest 2026</p>
+    <h1>תיק לתחרות</h1>
+    <p class="sub">מסמנות וי על כל מה שנכנס לתיק</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="progress" aria-live="polite">
+    <div class="bar"><i id="fill"></i></div>
+    <span class="count" id="count">0 / 0</span>
+  </div>
+
+  <div class="done-note" id="doneNote" hidden>הכל בתיק. בהצלחה בבודפשט!</div>
+
+  <div id="lists"></div>
+
+  <div class="reset" id="resetArea">
+    <button type="button" id="resetBtn">לנקות את כל הסימונים</button>
+  </div>
+</main>
+
+<script>
+const groups = [
+  { title: "ציוד", items: [
+    ["leo", "בגד גוף", "אחד או שניים"],
+    ["brief", "תחתון תחרותי"],
+    ["socks", "גרביים לבנות", "חדשות ונקיות"],
+    ["knee", "ברכיות"],
+    ["rope", "חבל"],
+    ["slippers", "נעלי בית", "לא אצבע"],
+    ["water", "בקבוק מים", "רצוי לא חד פעמי"],
+    ["tape", "תחבושת אלסטית דביקה", "בצבע גוף"],
+    ["halfshoes", "נעלי חצי"],
+    ["makeup", "איפור"],
+    ["apparatus", "האביזר שאיתו מתחרה"]
+  ]},
+  { title: "תסרוקת", items: [
+    ["pins", "סיכות סבתא"],
+    ["nets", "רשתות"],
+    ["bands", "גומיות עבות"],
+    ["spray", "ספריי שיער או וואקס"],
+    ["brush", "מברשת תסרוקות צפופה"]
+  ]}
+];
+
+const KEY = "budapest-checklist-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+
+const tick = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>';
+const lists = document.getElementById("lists");
+lists.innerHTML = groups.map((g, gi) => `
+  <section>
+    <h2><span>${g.title}</span><span id="gc${gi}"></span></h2>
+    <ul>${g.items.map(([id, name, note]) => `
+      <li><label>
+        <input type="checkbox" id="i-${id}" data-id="${id}">
+        <span class="box">${tick}</span>
+        <span class="txt"><span class="name">${name}</span>${note ? `<span class="note">${note}</span>` : ""}</span>
+      </label></li>`).join("")}
+    </ul>
+  </section>`).join("");
+
+const boxes = [...document.querySelectorAll("input[type=checkbox]")];
+boxes.forEach(b => {
+  b.checked = !!state[b.dataset.id];
+  b.addEventListener("change", () => { state[b.dataset.id] = b.checked; save(); update(); });
+});
+
+function update(){
+  const total = boxes.length, done = boxes.filter(b => b.checked).length;
+  document.getElementById("count").textContent = `${done} מתוך ${total}`;
+  document.getElementById("fill").style.width = (done / total * 100) + "%";
+  document.getElementById("doneNote").hidden = done !== total;
+  groups.forEach((g, gi) => {
+    const n = g.items.filter(([id]) => document.getElementById("i-" + id).checked).length;
+    document.getElementById("gc" + gi).textContent = `${n}/${g.items.length}`;
+  });
+}
+update();
+
+const area = document.getElementById("resetArea");
+function showReset(){
+  area.innerHTML = '<button type="button" id="resetBtn">לנקות את כל הסימונים</button>';
+  document.getElementById("resetBtn").onclick = () => {
+    area.innerHTML = '<p class="ask">לנקות את כל הווים?</p><button type="button" class="solid" id="yes">כן, לנקות</button><button type="button" id="no">ביטול</button>';
+    document.getElementById("yes").onclick = () => { boxes.forEach(b => b.checked = false); state = {}; save(); update(); showReset(); };
+    document.getElementById("no").onclick = showReset;
+  };
+}
+showReset();
+</script>
+</body>
+</html>

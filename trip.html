@@ -122,7 +122,7 @@ textarea{width:100%;resize:vertical;display:block}
     </svg>
     <p class="eyebrow">Budapest 2026</p>
     <h1>בודפשט <span dir="ltr">1–6.12</span></h1>
-    <p class="sub">תחרות, שווקים ואורות · <a href="./">לצ'ק ליסט של התיק</a></p>
+    <p class="sub">תחרות, אורות והחלקה · <a href="./">לצ'ק ליסט של התיק</a></p>
   </div>
 </header>
 
@@ -158,42 +158,46 @@ textarea{width:100%;resize:vertical;display:block}
 <script>
 const DEFAULT = {
   days: [
-    { id:"d1", short:"שלישי", date:"1.12", title:"נחיתה", items:[
-      { time:"לילה", text:"נחיתה, מונית למלון ושינה" }
+    { id:"d1", short:"שלישי", date:"1.12", title:"הגעה", items:[
+      { time:"לילה", text:"נחיתה, נסיעה למלון ולישון" }
     ]},
-    { id:"d2", short:"רביעי", date:"2.12", title:"אימון ושווקים", items:[
-      { time:"10:00", text:"תצפית על הפרלמנט והדנובה + קפה", note:"נקודה אחת, בלי הליכה ארוכה", map:"Parliament Budapest" },
-      { time:"11:30", text:"צהריים מוקדם וקל" },
-      { time:"12:15", text:"מונית לאימון" },
-      { time:"14:00", text:"אימון", note:"עד 16:00" },
-      { time:"ערב", text:"שוק חג המולד בבזיליקה", note:"מופע אורות על החזית · ארוחה קלה וחוזרים מוקדם", map:"Advent Bazilika Budapest" }
+    { id:"d2", short:"רביעי", date:"2.12", title:"תצפית, אימון ולומינה", items:[
+      { time:"בוקר", text:"תצפית על הפרלמנט והדנובה + קפה", note:"נקודה אחת, בלי הליכה ארוכה", map:"Parliament Budapest" },
+      { time:"11:30", text:"ארוחת צהריים מוקדמת וקלילה" },
+      { time:"12:15", text:"נסיעה לאימון" },
+      { time:"14:00", text:"אימון של מיקה", note:"עד 16:00" },
+      { time:"ערב", text:"לומינה פארק באי מרגיט ✨", note:"כשעה וחצי עד שעתיים", map:"Lumina Park Margitsziget Budapest" },
+      { time:"", text:"ארוחה קלה וחזרה מוקדמת למלון" }
     ]},
-    { id:"d3", short:"חמישי", date:"3.12", title:"קרקס · בניה מגיע", items:[
-      { time:"בוקר", text:"מבצר הדייגים", note:"שעה, בשביל הנוף · עולים ברכבל", map:"Fisherman's Bastion Budapest" },
-      { time:"צהריים", text:"ארוחה ומנוחה" },
-      { time:"15:00", text:"קרקס", note:"עד ~17:30", map:"Fővárosi Nagycirkusz" },
-      { time:"ערב", text:"ערב רגוע ולישון מוקדם", note:"מחר תחרות" }
+    { id:"d3", short:"חמישי", date:"3.12", title:"בודה, הקרקס ושיט · בניה מצטרף", items:[
+      { time:"בוקר", text:"מבצר הדייגים וכנסיית מתיאש", note:"סיבוב קצר של כשעה", map:"Fisherman's Bastion Budapest" },
+      { time:"צהריים", text:"ארוחה ומנוחה במלון" },
+      { time:"15:00", text:"מופע הקרקס בפארק העירוני 🎪", note:"עד ~17:30", map:"Fővárosi Nagycirkusz" },
+      { time:"", text:"מונית לרציף במרכז העיר" },
+      { time:"ערב", text:"שיט של כשעה בדנובה 🚢", note:"סירה עם אזור פנימי מחומם" },
+      { time:"", text:"ארוחה קלה וחזרה למלון", note:"מחר תחרות – לישון מוקדם" }
     ]},
-    { id:"d4", short:"שישי", date:"4.12", title:"יום התחרות", items:[
-      { time:"בוקר", text:"תחרות בארנה 🤸‍♀️" },
+    { id:"d4", short:"שישי", date:"4.12", title:"תחרות וערב משפחתי", items:[
+      { time:"בוקר", text:"תחרות של מיקה ליד קניון ארנה 🤸‍♀️", note:"מגיעים לקראת החימום, לפי הנחיית המאמנת" },
       { time:"15:30", text:"פודיום 🏅" },
-      { time:"15:36", text:"כניסת שבת", note:"אחותי והמשפחה הולכים ברגל לרובע היהודי (~40 דק')" },
-      { time:"אחה\"צ", text:"מקלחת והחלפת בגדים במלון" },
-      { time:"18:00", text:"מגיעים לבית חב\"ד", note:"לוודא כתובת" },
-      { time:"19:00", text:"ארוחת שישי בבית חב\"ד", note:"כולם יחד" },
-      { time:"אם יש כוח", text:"שוק בכיכר Vörösmarty", note:"~15 דק' הליכה · נסגר ~22:00", map:"Vörösmarty tér Budapest" }
+      { time:"15:36", text:"כניסת שבת", note:"אחותי והילדים מגיעים לרובע היהודי לפני כן" },
+      { time:"אחה\"צ", text:"מנוחה קצרה וטיול עירוני קליל" },
+      { time:"19:00", text:"ארוחת שישי משותפת בבית חב\"ד", note:"להגיע ~18:00" },
+      { time:"אם יש כוח", text:"סיבוב קצר בשוק חג המולד בכיכר Vörösmarty", map:"Vörösmarty tér Budapest" }
     ]},
-    { id:"d5", short:"שבת", date:"5.12", title:"ואצי, שווקים והחלקה", items:[
-      { time:"בוקר", text:"השוק המקורה הגדול", note:"להגיע בבוקר · נסגר מוקדם בשבת", map:"Great Market Hall Budapest" },
-      { time:"צהריים", text:"רחוב ואצי – שופינג וצהריים", map:"Váci utca Budapest" },
+    { id:"d5", short:"שבת", date:"5.12", title:"ואצי אוצה והחלקה", items:[
+      { time:"בוקר", text:"השוק המקורה הגדול", note:"אם שעות הפתיחה מתאימות", map:"Great Market Hall Budapest" },
+      { time:"צהריים", text:"רחוב ואצי אוצה – שיטוט, קניות וצהריים", note:"בקצה הרחוב: שוק חג המולד ב-Vörösmarty", map:"Váci utca Budapest" },
       { time:"", text:"אחותי והמשפחה: שבת בקצב שלהם" },
-      { time:"אחה\"צ", text:"מנוחה ואריזה" },
-      { time:"17:00", text:"החלקה בפארק העירוני ⛸️", note:"כולם יחד · צאת שבת ~16:45", map:"Városligeti Műjégpálya" },
-      { time:"ערב", text:"ארוחת ערב, מזוודות ושדה ✈️" }
+      { time:"אחה\"צ", text:"מנוחה, אריזה ואיסוף המזוודות" },
+      { time:"צאת שבת", text:"החלקה על הקרח בפארק העירוני ⛸️", note:"ליד טירת ויידהוניאד · צאת שבת ~16:45, המשטח נפתח ב-17:00", map:"Városligeti Műjégpálya" },
+      { time:"ערב", text:"ארוחה קלה ונסיעה לשדה ✈️" }
     ]}
   ],
   todos: [
     { text:"כרטיסים לקרקס – חמישי 15:00 (fnc.hu)" },
+    { text:"כרטיסים ללומינה – רביעי בערב" },
+    { text:"שיט בדנובה – חמישי בערב, סירה עם אזור מחומם" },
     { text:"תשלום מראש לארוחת שישי בבית חב\"ד + לוודא כתובת" },
     { text:"כרטיסים להחלקה + לוודא שעות במוצ\"ש (mujegpalya.hu)" },
     { text:"שעת הטיסה המדויקת" },
@@ -202,7 +206,7 @@ const DEFAULT = {
 };
 const TRIP_DATES = { d1:"2026-12-01", d2:"2026-12-02", d3:"2026-12-03", d4:"2026-12-04", d5:"2026-12-05" };
 
-const KEY = "budapest-trip-v1";
+const KEY = "budapest-trip-v2";
 let uid = Date.now();
 const nid = () => "x" + (uid++).toString(36);
 function fresh(){
